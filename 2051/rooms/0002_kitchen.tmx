@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="10" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="81" columns="9">
+  <image source="../assets/tiles/tiles.png" width="144" height="144"/>
+ </tileset>
+ <tileset firstgid="82" name="tiles" tilewidth="16" tileheight="16" tilecount="81" columns="9">
+  <image source="../assets/tiles/tiles.png" width="144" height="144"/>
+ </tileset>
+ <tileset firstgid="163" name="metatile" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="../assets/tiles/metatile.png" width="16" height="16"/>
+ </tileset>
+ <layer id="6" name="background_1" width="10" height="7">
+  <data encoding="csv">
+52,52,24,10,10,10,10,10,10,10,
+10,26,24,10,10,10,10,10,10,10,
+10,26,82,82,82,82,82,82,82,82,
+1,1,82,82,82,82,82,82,82,82,
+1,1,82,82,82,82,82,82,82,82,
+119,116,82,82,82,82,82,82,82,82,
+119,119,119,119,119,119,119,119,119,119
+</data>
+ </layer>
+ <layer id="5" name="background_2" width="10" height="7">
+  <data encoding="csv">
+0,0,0,85,0,151,0,0,85,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="4" name="foreground_1" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+34,116,0,0,0,0,0,0,0,0,
+0,0,115,115,115,115,115,115,115,115
+</data>
+ </layer>
+ <layer id="3" name="foreground_2" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="collision" width="10" height="7">
+  <data encoding="csv">
+163,163,163,163,163,163,163,163,163,163,
+163,163,163,163,163,163,163,163,163,163,
+163,163,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+163,163,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="10" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="81" columns="9">
+  <image source="../assets/tiles/tiles.png" width="144" height="144"/>
+ </tileset>
+ <tileset firstgid="82" name="metatile" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="../assets/tiles/metatile.png" width="16" height="16"/>
+ </tileset>
+ <layer id="4" name="background_1" width="10" height="7">
+  <data encoding="csv">
+52,52,52,52,52,52,52,52,52,52,
+25,25,25,25,25,25,25,25,25,25,
+25,25,25,25,25,25,25,25,25,25,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="1" name="background_2" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,7,0,4,0,0,0,6,0,4,
+0,16,0,0,0,0,0,15,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="foreground_1" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+34,34,34,34,34,34,34,34,34,34,
+38,38,38,38,38,38,38,38,38,38
+</data>
+ </layer>
+ <layer id="7" name="foreground_2" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="6" name="collision" width="10" height="7">
+  <properties>
+   <property name="collision" type="bool" value="true"/>
+  </properties>
+  <data encoding="csv">
+82,82,82,82,82,82,82,82,82,82,
+82,82,82,82,82,82,82,82,82,82,
+82,82,82,82,82,82,82,82,82,82,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+82,82,82,82,82,82,82,82,82,82
+</data>
+ </layer>
+</map>
