@@ -3,8 +3,11 @@ import os
 import pygame
 import pytmx
 from pytmx.util_pygame import load_pygame
+import pyscroll
 
 import numpy as np
+
+from .timer import Timer
 
 
 class Door:
@@ -113,6 +116,13 @@ class Room:
         # load tilemap
         map_filename = os.path.join(room_path, room_id + '.tmx')
         self.tilemap = load_pygame(map_filename)
+        # load map properties
+        self.ambient_light = self.tilemap.properties.get('ambient_light', self.ambient_light)
+
+        self.frames = self.tilemap.tile_properties
+        self.frame_ptrs = {}
+        self.frame_timers = {}
+
         tile_w = self.tilemap.tilewidth
         tile_h = self.tilemap.tileheight
 
@@ -144,9 +154,29 @@ class Room:
         tile_w = self.tilemap.tilewidth
         tile_h = self.tilemap.tileheight
         layer = self.tilemap.layers[layer_id]
-        for x, y, image in layer.tiles():
-            scaled_image = pygame.transform.scale(image, (tile_w * scale, tile_h * scale))
-            screen.blit(scaled_image, (x * tile_w * scale, y * tile_h * scale))
+        data = layer.data
+        h = len(data)
+        w = len(data[0])
+        for y in range(h):
+            for x in range(w):
+                gid = data[y][x]
+                if gid == 0:
+                    continue
+                if gid in self.frames:
+                    frames = self.frames[gid]['frames']
+                    frameptr = self.frame_ptrs.get(gid, 0)
+                    delay = frames[frameptr].duration
+                    frame_timer = self.frame_timers.get(gid, Timer(delay))
+                    self.frame_timers[gid] = frame_timer
+                    original_gid = gid
+                    gid = frames[frameptr].gid
+                    if frame_timer.done():
+                        self.frame_ptrs[original_gid] = frameptr + 1
+                        self.frame_ptrs[original_gid] %= len(self.frames[original_gid]['frames'])
+                        self.frame_timers[original_gid].reset()
+                image = self.tilemap.images[gid]
+                scaled_image = pygame.transform.scale(image, (tile_w * scale, tile_h * scale))
+                screen.blit(scaled_image, (x * tile_w * scale, y * tile_h * scale))
 
     def display_items(self, screen, scale):
         tile_w = self.tilemap.tilewidth

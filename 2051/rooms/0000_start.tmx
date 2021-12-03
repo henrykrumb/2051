@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="10" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="10" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="5">
+ <properties>
+  <property name="ambient_light" type="int" value="128"/>
+ </properties>
  <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="81" columns="9">
   <image source="../assets/tiles/tiles.png" width="144" height="144"/>
  </tileset>
@@ -64,4 +67,9 @@
 82,82,82,82,82,82,82,82,82,82
 </data>
  </layer>
+ <objectgroup id="8" name="objects">
+  <object id="1" type="lookat" x="48.0394" y="36.6968" width="15.5683" height="24.4645"/>
+  <object id="2" type="action" x="48.0394" y="36.6968" width="15.5683" height="24.4645"/>
+  <object id="3" type="door" x="80.5105" y="22.4629" width="15.3459" height="25.1317"/>
+ </objectgroup>
 </map>
