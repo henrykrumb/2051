@@ -2,6 +2,7 @@ import os
 import json
 
 import pygame
+import pygame.freetype
 from pygame.locals import *
 
 from .gamestate import GameState

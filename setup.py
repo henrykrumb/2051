@@ -18,6 +18,10 @@ setup(
             'resources/rooms/*',
         ]
     },
+    data_files = [
+        ('share/applications', ['twentyfiftyone.desktop']),
+        ('share/icons', ['twentyfiftyone.png'])
+    ],
     packages=['twentyfiftyone'],
     entry_points='''
         [console_scripts]

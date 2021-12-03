@@ -1,3 +1,5 @@
+import os
+
 import pygame
 from pygame.locals import *
 
@@ -18,6 +20,17 @@ class GameApplication:
 
         game = Game(game_path, parent=self)
         pygame.display.set_caption(game.settings.get('title', 'Adventure'))
+
+        icon = None
+        try:
+            icon = pygame.image.load(os.path.join(os.dirname(__file__), '..', 'twentyfiftyone.png'))
+        except:
+            try:
+                icon = pygame.image.load('/usr/share/icons/twentyfiftyone.png')
+            except:
+                pass
+        if icon:
+            pygame.display.set_icon(icon)
 
         running = True
         while running:

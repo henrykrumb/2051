@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=2051
+Comment=Dystopian 2D Adventure Game
+Comment[de]=Dystopisches 2D Adventure
+Exec=twentyfiftyone
+Terminal=false
+Type=Application
+Categories=Game;AdventureGame;
+StartupNotify=false
+Icon=twentyfiftyone.png
