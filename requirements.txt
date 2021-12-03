@@ -1,0 +1,6 @@
+click==8.0.3
+numpy==1.21.4
+pygame==2.1.0
+pyscroll==2.28
+PyTMX==3.31
+twentyfiftyone==1.0
