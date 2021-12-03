@@ -162,6 +162,7 @@ class Room:
                 gid = data[y][x]
                 if gid == 0:
                     continue
+                # load animated frames and timers
                 if gid in self.frames:
                     frames = self.frames[gid]['frames']
                     frameptr = self.frame_ptrs.get(gid, 0)
@@ -171,9 +172,10 @@ class Room:
                     original_gid = gid
                     gid = frames[frameptr].gid
                     if frame_timer.done():
-                        self.frame_ptrs[original_gid] = frameptr + 1
-                        self.frame_ptrs[original_gid] %= len(self.frames[original_gid]['frames'])
-                        self.frame_timers[original_gid].reset()
+                        frameptr = (frameptr + 1) % len(frames)
+                        self.frame_ptrs[original_gid] = frameptr
+                        delay = frames[frameptr].duration
+                        self.frame_timers[original_gid] = Timer(delay)
                 image = self.tilemap.images[gid]
                 scaled_image = pygame.transform.scale(image, (tile_w * scale, tile_h * scale))
                 screen.blit(scaled_image, (x * tile_w * scale, y * tile_h * scale))
