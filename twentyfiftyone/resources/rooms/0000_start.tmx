@@ -9,6 +9,17 @@
  <tileset firstgid="82" name="metatile" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="../assets/tiles/metatile.png" width="16" height="16"/>
  </tileset>
+ <tileset firstgid="83" name="lights" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+  <image source="../assets/tiles/lights.png" width="16" height="32"/>
+  <tile id="1">
+   <animation>
+    <frame tileid="0" duration="10000"/>
+    <frame tileid="1" duration="100"/>
+    <frame tileid="0" duration="100"/>
+    <frame tileid="1" duration="100"/>
+   </animation>
+  </tile>
+ </tileset>
  <layer id="4" name="background_1" width="10" height="7">
   <data encoding="csv">
 38,38,0,0,0,0,0,0,38,0,
@@ -23,10 +34,10 @@
  <layer id="1" name="background_2" width="10" height="7">
   <data encoding="csv">
 0,0,47,47,47,47,47,47,0,38,
-0,0,4,0,0,8,0,0,0,0,
+0,0,84,0,0,8,0,0,0,0,
 0,0,0,59,0,17,0,0,0,0,
-0,0,0,68,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
+0,0,0,68,1,1,1,0,0,0,
+0,0,0,0,0,0,0,1,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,38
 </data>

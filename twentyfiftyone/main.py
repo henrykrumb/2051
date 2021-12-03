@@ -9,5 +9,5 @@ from .gameapplication import GameApplication
 @click.command()
 def fmain():
     gameapplication = GameApplication()
-    gamepath = os.path.join(os.path.dirname(__file__), '..', '2051')
+    gamepath = os.path.join(os.path.dirname(__file__), 'resources')
     gameapplication.run(gamepath)
