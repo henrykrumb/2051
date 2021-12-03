@@ -2,3 +2,5 @@
 
 2051 is a dystopian adventure game written in Python + pygame.
 This currently a tech demo and heavy WIP.
+
+![demo-gif](static/demo.gif)
