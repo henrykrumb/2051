@@ -11,7 +11,7 @@
 			{
 				"x": 3, "y": 3,
 				"conditions": "~floppy",
-				"message": "This is your monochrome monitor terminal.\nYou have illegally modified the firmware,\nallowing you to read documents stored on floppies.\n\nYou can insert floppy disks into a designated slot."
+				"message": "This is your personal terminal.\nYou have illegally modified the firmware,\nallowing you to read documents stored on floppies.\n\nYou can insert floppy disks into a designated slot."
 			},
 			{
 				"x": 3, "y": 3,
@@ -44,8 +44,7 @@
 	"0002_kitchen": {
 		"ambient_light": 100,
 		"light_sources": [
-			{ "x": 3, "y": 0, "value": 140 },
-			{ "x": 8, "y": 0, "value": 50 }
+			{ "x": 3, "y": 0, "value": 140 }
 		],
 		"doors": [
 			{ "x": 0, "y": 3, "dest_id": "0001_hallway", "dest_x": 9, "dest_y": 2, "dest_face": "west" },
