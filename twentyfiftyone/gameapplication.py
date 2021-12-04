@@ -6,6 +6,7 @@ from pygame.locals import *
 from .game import Game
 from .room import Room
 
+
 class GameApplication:
     def __init__(self):
         self.sprites = []

@@ -5,6 +5,7 @@ import pygame
 import pygame.freetype
 from pygame.locals import *
 
+from .character import Character
 from .gamestate import GameState
 from .player import Player
 from .room import Room, Lookat
@@ -29,9 +30,9 @@ class Game:
         fontpath = os.path.join(self.path, 'fonts')
         self.font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 12)
 
-        imagepath = os.path.join(self.path, 'assets', 'characters', 'player.png')
-        playerimage = pygame.image.load(imagepath)
-        self.player = Player(playerimage, self.settings)
+        imagepath = os.path.join(self.path, 'assets', 'characters')
+        character = Character(imagepath)
+        self.player = Player(character, self.settings)
         self.player.direction = 'idle'
         self.player.sprite.x = 5 * 16 + 4
         self.player.sprite.y = 2 * 16 - 4

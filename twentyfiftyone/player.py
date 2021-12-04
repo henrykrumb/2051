@@ -6,12 +6,12 @@ from .timer import Timer
 
 
 class Player:
-    def __init__(self, image, settings):
+    def __init__(self, character, settings):
         self.scale = settings.get('scale', 4)
         animation_delay = settings.get('walk_animation_delay', 100)
         movement_delay = settings.get('walk_movement_delay', 40)
         self.foot_height = settings.get('foot_height', 1)
-        self.sprite = Sprite(image, self.scale)
+        self.sprite = Sprite(character.surface, self.scale)
         self.sprite.frame_w = 9
         self.sprite.frame_h = 26
         self.animation_timer = Timer(animation_delay)
