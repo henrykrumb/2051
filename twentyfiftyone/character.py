@@ -29,7 +29,7 @@ def replace_pair(image, color_old, color_new):
 class Character:
     def __init__(self, template_location, **kwargs):
         hair_color = kwargs.pop('hair_color', 'black')
-        hair_style = kwargs.pop('hair_style', 'short')
+        hair_style = kwargs.pop('hair_style', 'long')
         shirt_color = kwargs.pop('shirt_color', 'cyan')
         pants_color = kwargs.pop('pants_color', 'blue')
 
