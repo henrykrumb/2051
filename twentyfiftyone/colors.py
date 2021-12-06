@@ -17,7 +17,11 @@ COLORS = {
     'yellow': (255, 255, 0),
     'darkyellow': (128, 128, 0),
     'cyan': (0, 255, 255),
-    'darkcyan': (0, 128, 128)
+    'darkcyan': (0, 128, 128),
+    'orange': (255, 128, 0),
+    'darkorange': (128, 64, 0),
+    'brown': (128, 64, 0),
+    'darkbrown': (64, 32, 0)
 }
 
 
