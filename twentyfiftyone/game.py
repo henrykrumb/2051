@@ -13,8 +13,7 @@ from .sprite import Sprite
 
 
 class Game:
-    def __init__(self, path, parent=None):
-        self.parent = parent
+    def __init__(self, path):
         self.gamestate = GameState()
         
         self.path = path
@@ -54,7 +53,6 @@ class Game:
         room = self.rooms.get(room_id)
         if not room:
             raise RuntimeError(f'Undefined room "{room_id}"')
-        self.parent.sprites = []
     
     def update(self):
         if self.interactive:
@@ -106,7 +104,6 @@ class Game:
                 if self.action_item.message:
                     show_messagebox(self.action_item.message)
 
-
         while self.events:
             event = self.events.pop()
             if event.type == KEYDOWN:
@@ -138,7 +135,7 @@ class Game:
         for door in room.doors:
             if self.player.intersects_feet(door.x * 16, door.y * 16, 16, 16):
                 self.player.set_direction('idle')
-                self.gamestate.room_id = door.dest_id
+                self.gamestate.set_room(door.dest_id)
                 self.player.sprite.x = door.dest_x * 16 + 4
                 self.player.sprite.y = door.dest_y * 16 - 4
                 self.player.sprite.yframe = self.player.y_frames.get(door.dest_face)
@@ -191,6 +188,9 @@ class Game:
             )
 
     def load(self, path):
+        """
+        Load game definition from path.
+        """
         self.events = []
         self.gamepath = path
         with open(os.path.join(path, 'settings.json'), 'r') as f:
@@ -206,6 +206,9 @@ class Game:
                 self.rooms[room_id] = Room(room_id, room_path, room_definition, scale)
 
     def load_gamestate(self, slot):
+        """
+        Load gamestate from savegame.
+        """
         savepath = os.path.join(self.gamepath, 'savegames')
         slotpath = os.path.join(savepath, f'slot_{slot:03d}')
         with open(slotpath, 'r') as f:
@@ -213,6 +216,9 @@ class Game:
         self.gamestate = GameState.deserialize(savegame)
 
     def save_gamestate(self, slot):
+        """
+        Save gamestate to savegame file.
+        """
         savegame = self.gamestate.serialize()
         savepath = os.path.join(self.gamepath, 'savegames')
         os.path.makedirs(savepath, exist_ok=True)

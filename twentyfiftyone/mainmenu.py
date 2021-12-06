@@ -1,0 +1,78 @@
+import os
+
+import pygame
+import pygame.freetype
+from pygame.locals import *
+
+from .colors import COLORS
+
+
+class MainMenu:
+    def __init__(self, path, gameapplication):
+        self.running = True
+        self.path = path
+        background_path = os.path.join(self.path, 'assets', 'ui', 'background.png')
+        self.background = pygame.image.load(background_path)
+        self.background = pygame.transform.scale(self.background, (640, 448))
+        fontpath = os.path.join(self.path, 'fonts')
+        self.font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 16)
+        self.events = []
+        self.gameapplication = gameapplication
+        self.actions = ['start', 'load', 'exit']
+        self.action = 0
+        self.texts = [
+            self.font.render(action.upper(), COLORS['blue']) for action in self.actions
+        ]
+        self.texts_select = [
+            self.font.render(action.upper(), COLORS['white']) for action in self.actions
+        ]
+
+    def start_game(self):
+        self.gameapplication.state = 'game'
+
+    def update(self):
+        def up():
+            self.action -= 1
+            if self.action < 0:
+                self.action = 0
+
+        def down():
+            self.action += 1
+            if self.action >= len(self.actions):
+                self.action = len(self.actions) - 1
+
+        def select():
+            if self.actions[self.action] == 'start':
+                self.gameapplication.state = 'game'
+            elif self.actions[self.action] == 'load':
+                self.gameapplication.state = 'load'
+            elif self.actions[self.action] == 'exit':
+                self.gameapplication.state = 'quit'
+
+        while self.events:
+            event = self.events.pop()
+            if event.type == KEYDOWN:
+                if event.key == K_UP:
+                    up()
+                elif event.key == K_DOWN:
+                    down()
+                elif event.key == K_SPACE:
+                    select()
+            elif event.type == JOYAXISMOTION:
+                if event.axis == 1:
+                    if event.value < -0.1:
+                        up()
+                    elif event.value > 0.1:
+                        down()
+            elif event.type == JOYBUTTONDOWN:
+                if event.button == 0:
+                    select()
+
+    def display(self, screen):
+        screen.fill(COLORS['cyan'])
+        screen.blit(self.background, (0, 0))
+        for i, text in enumerate(self.texts):
+            surface, rect = text
+            if i == self.action:
+                surface, rect = self.texts_select[i]
+            screen.blit(surface, (640 // 2 - rect[2] // 2, 448 // 2 + i * (rect[3] + 8)))

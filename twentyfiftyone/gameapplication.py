@@ -10,16 +10,16 @@ from .room import Room
 class GameApplication:
     def __init__(self):
         self.sprites = []
-
-    def run(self, game_path):
         pygame.init()
         pygame.joystick.init()
         joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
-        screen = pygame.display.set_mode((640, 448))
-        screen.fill((0, 0, 0))
-        clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((640, 448))
+        self.screen.fill((0, 0, 0))
+        self.clock = pygame.time.Clock()
+        self.state = 'menu'
 
-        game = Game(game_path, parent=self)
+    def run(self, menu, gamepath):
+        game = Game(gamepath)
         pygame.display.set_caption(game.settings.get('title', 'Adventure'))
 
         icon = None
@@ -33,28 +33,41 @@ class GameApplication:
         if icon:
             pygame.display.set_icon(icon)
 
-        running = True
-        while running:
+        while self.state != 'quit':
             pygame.display.update()
+
+            if self.state == 'menu':
+                receiver = menu
+            elif self.state == 'game':
+                receiver = game
+
+            events = []
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    running = False
+                    if self.state == 'game':
+                        self.state = 'menu'
+                    else:
+                        self.state = 'quit'
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        running = False
+                        if self.state == 'game':
+                            self.state = 'menu'
+                        else:
+                            self.state = 'quit'
                     else:
-                        game.events.append(event)
+                        events.append(event)
                 elif event.type == KEYUP:
-                    game.events.append(event)
+                    events.append(event)
                 elif event.type == JOYBUTTONDOWN:
-                    game.events.append(event)
+                    events.append(event)
                 elif event.type == JOYBUTTONUP:
-                    game.events.append(event)
+                    events.append(event)
                 elif event.type == JOYAXISMOTION:
-                    game.events.append(event)
-            game.update()
-            game.display(screen)
-            clock.tick()
+                    events.append(event)
+            receiver.events = events
+            new_state = receiver.update()
+            receiver.display(self.screen)
+            self.clock.tick()
         pygame.quit()
         exit(0)
 
