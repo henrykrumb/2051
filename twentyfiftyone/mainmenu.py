@@ -15,17 +15,19 @@ class MainMenu:
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (640, 448))
         fontpath = os.path.join(self.path, 'fonts')
-        self.font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 16)
+        self.font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 8)
         self.events = []
         self.gameapplication = gameapplication
         self.actions = ['start', 'load', 'exit']
         self.action = 0
         self.texts = [
-            self.font.render(action.upper(), COLORS['blue']) for action in self.actions
+            self.font.render(action.upper(), COLORS['blue'])[0] for action in self.actions
         ]
         self.texts_select = [
-            self.font.render(action.upper(), COLORS['white']) for action in self.actions
+            self.font.render(action.upper(), COLORS['white'])[0] for action in self.actions
         ]
+        self.texts = [pygame.transform.scale(t, (t.get_width() * 4, t.get_height() * 4)) for t in self.texts]
+        self.texts_select = [pygame.transform.scale(t, (t.get_width() * 4, t.get_height() * 4)) for t in self.texts_select]
 
     def start_game(self):
         self.gameapplication.state = 'game'
@@ -72,7 +74,9 @@ class MainMenu:
         screen.fill(COLORS['cyan'])
         screen.blit(self.background, (0, 0))
         for i, text in enumerate(self.texts):
-            surface, rect = text
+            surface = text
             if i == self.action:
-                surface, rect = self.texts_select[i]
-            screen.blit(surface, (640 // 2 - rect[2] // 2, 448 // 2 + i * (rect[3] + 8)))
+                surface = self.texts_select[i]
+            x = 640 // 2 - surface.get_width() // 2
+            y = 480 // 2 + i * 48 - len(self.texts) * 48 // 2
+            screen.blit(surface, (x, y))
