@@ -5,6 +5,7 @@ import pygame.freetype
 from pygame.locals import *
 
 from .colors import COLORS
+from .ui import ComponentGroup, Button
 
 
 class MainMenu:
@@ -15,68 +16,53 @@ class MainMenu:
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (640, 448))
         fontpath = os.path.join(self.path, 'fonts')
-        self.font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 8)
+        font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 8)
         self.events = []
         self.gameapplication = gameapplication
-        self.actions = ['start', 'load', 'exit']
-        self.action = 0
-        self.texts = [
-            self.font.render(action.upper(), COLORS['blue'])[0] for action in self.actions
+
+        self.button_group = ComponentGroup()
+        self.button_group.components = [
+            Button('START', font),
+            Button('LOAD', font),
+            Button('EXIT', font)
         ]
-        self.texts_select = [
-            self.font.render(action.upper(), COLORS['white'])[0] for action in self.actions
-        ]
-        self.texts = [pygame.transform.scale(t, (t.get_width() * 4, t.get_height() * 4)) for t in self.texts]
-        self.texts_select = [pygame.transform.scale(t, (t.get_width() * 4, t.get_height() * 4)) for t in self.texts_select]
+        self.button_group.pack()
+        self.button_group.x = 640 // 2 - self.button_group.width // 2
+        self.button_group.y = 448 // 2 - self.button_group.height // 2
 
     def start_game(self):
         self.gameapplication.state = 'game'
 
     def update(self):
-        def up():
-            self.action -= 1
-            if self.action < 0:
-                self.action = 0
-
-        def down():
-            self.action += 1
-            if self.action >= len(self.actions):
-                self.action = len(self.actions) - 1
-
-        def select():
-            if self.actions[self.action] == 'start':
+        def select(action):
+            action = action.lower()
+            if action == 'start':
                 self.gameapplication.state = 'game'
-            elif self.actions[self.action] == 'load':
+            elif action == 'load':
                 self.gameapplication.state = 'load'
-            elif self.actions[self.action] == 'exit':
+            elif action == 'exit':
                 self.gameapplication.state = 'quit'
 
         while self.events:
             event = self.events.pop()
             if event.type == KEYDOWN:
                 if event.key == K_UP:
-                    up()
+                    self.button_group.on_up()
                 elif event.key == K_DOWN:
-                    down()
+                    self.button_group.on_down()
                 elif event.key == K_SPACE:
-                    select()
+                    select(self.button_group.on_activate())
             elif event.type == JOYAXISMOTION:
                 if event.axis == 1:
                     if event.value < -0.1:
-                        up()
+                        self.button_group.on_up()
                     elif event.value > 0.1:
-                        down()
+                        self.button_group.on_down()
             elif event.type == JOYBUTTONDOWN:
                 if event.button == 0:
-                    select()
+                    select(self.button_group.on_activate())
 
     def display(self, screen):
         screen.fill(COLORS['cyan'])
         screen.blit(self.background, (0, 0))
-        for i, text in enumerate(self.texts):
-            surface = text
-            if i == self.action:
-                surface = self.texts_select[i]
-            x = 640 // 2 - surface.get_width() // 2
-            y = 480 // 2 + i * 48 - len(self.texts) * 48 // 2
-            screen.blit(surface, (x, y))
+        self.button_group.display(screen)
