@@ -37,7 +37,7 @@ class MainMenu:
         def select(action):
             action = action.lower()
             if action == 'start':
-                self.gameapplication.state = 'game'
+                self.gameapplication.state = 'designer'
             elif action == 'load':
                 self.gameapplication.state = 'load'
             elif action == 'exit':

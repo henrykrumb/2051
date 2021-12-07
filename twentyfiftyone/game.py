@@ -33,8 +33,6 @@ class Game:
         character = Character(imagepath)
         self.player = Player(character, self.settings)
         self.player.direction = 'idle'
-        self.player.sprite.x = 5 * 16 + 4
-        self.player.sprite.y = 2 * 16 - 4
         self.action_item = None
         def load_action_icon(name):
             iconpath = os.path.join(self.path, 'assets', 'ui', f'action_{name}.png')

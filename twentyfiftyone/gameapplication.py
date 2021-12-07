@@ -3,6 +3,7 @@ import os
 import pygame
 from pygame.locals import *
 
+from .character_designer import CharacterDesigner
 from .game import Game
 from .room import Room
 
@@ -19,8 +20,9 @@ class GameApplication:
         self.state = 'menu'
 
     def run(self, menu, gamepath):
-        game = Game(gamepath)
-        pygame.display.set_caption(game.settings.get('title', 'Adventure'))
+        self.game = Game(gamepath)
+        designer = CharacterDesigner(gamepath, self)
+        pygame.display.set_caption(self.game.settings.get('title', 'Adventure'))
 
         icon = None
         try:
@@ -38,19 +40,25 @@ class GameApplication:
 
             if self.state == 'menu':
                 receiver = menu
+            elif self.state == 'designer':
+                receiver = designer
             elif self.state == 'game':
-                receiver = game
+                receiver = self.game
 
             events = []
             for event in pygame.event.get():
                 if event.type == QUIT:
                     if self.state == 'game':
                         self.state = 'menu'
+                    elif self.state == 'designer':
+                        self.state = 'menu'
                     else:
                         self.state = 'quit'
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         if self.state == 'game':
+                            self.state = 'menu'
+                        elif self.state == 'designer':
                             self.state = 'menu'
                         else:
                             self.state = 'quit'

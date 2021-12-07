@@ -11,9 +11,7 @@ class Player:
         animation_delay = settings.get('walk_animation_delay', 100)
         movement_delay = settings.get('walk_movement_delay', 40)
         self.foot_height = settings.get('foot_height', 1)
-        self.sprite = Sprite(character.surface, self.scale)
-        self.sprite.frame_w = 9
-        self.sprite.frame_h = 26
+        self.set_character(character)
         self.animation_timer = Timer(animation_delay)
         self.movement_timer = Timer(movement_delay)
         self.direction = 'idle'
@@ -23,6 +21,13 @@ class Player:
             east=2,
             west=3
         )
+
+    def set_character(self, character):
+        self.sprite = Sprite(character.surface, self.scale)
+        self.sprite.frame_w = 9
+        self.sprite.frame_h = 26
+        self.sprite.x = 5 * 16 + 4
+        self.sprite.y = 2 * 16 - 4
 
     def set_direction(self, direction):
         if self.direction == direction:

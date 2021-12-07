@@ -32,11 +32,12 @@ class Component:
 
 
 class ComponentGroup(Component):
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(ComponentGroup, self).__init__()
         self.components = []
         self.selection = 0
-        self.spacing = 8
+        self.spacing = kwargs.pop('spacing', 16)
+        self.center = kwargs.pop('center', True)
 
     def pack(self):
         self.width = 0
@@ -73,6 +74,8 @@ class ComponentGroup(Component):
         y = self.y
         for i, c in enumerate(self.components):
             c.x = self.x
+            if self.center:
+                c.x += (self.width - c.width) // 2
             c.y = y
             c.display(screen)
             y += c.height + self.spacing
@@ -102,14 +105,24 @@ class Button(Component):
 
 
 class Select(Component):
-    def __init__(self, options, font, **kwargs):
+    def __init__(self, label, options, font, **kwargs):
         super(Select, self).__init__()
-        fg = kwargs.pop('fg', 'black')
-        bg = kwargs.pop('bg', 'white')
+        fg = kwargs.pop('fg', 'blue')
+        fg_focus = kwargs.pop('fg_focus', 'white')
+        self.spacing = kwargs.pop('spacing', 16)
+        scale = kwargs.pop('scale', 2)
+        lbl, _ = font.render(label, COLORS[fg])
+        self.label = pygame.transform.scale(lbl, (lbl.get_width() * scale, lbl.get_height() * scale))
         self.texts = [
-            font.render(text, COLORS[fg]) for text in options   
+            font.render(text, COLORS[fg])[0] for text in options
         ]
-        self.texts = [pygame.transform.scale(t, (t.get_width() * 4, t.get_height() * 4)) for t in self.texts]
+        self.texts_focus = [
+            font.render(text, COLORS[fg_focus])[0] for text in options
+        ]
+        self.texts = [pygame.transform.scale(t, (t.get_width() * scale, t.get_height() * scale)) for t in self.texts]
+        self.texts_focus = [pygame.transform.scale(t, (t.get_width() * scale, t.get_height() * scale)) for t in self.texts_focus]
+        self.width = self.label.get_width() + self.spacing + max([t.get_width() for t in self.texts])
+        self.height = self.label.get_height()
         self.options = options
         self.selection = 0
 
@@ -124,5 +137,12 @@ class Select(Component):
         if self.selection + 1 < len(self.texts):
             self.selection += 1
 
+    def on_activate(self):
+        return self.options[self.selection]
+
     def display(self, screen):
-        screen.blit(self.texts[self.selection], (self.x, self.y))
+        text = self.texts[self.selection]
+        if self.focus:
+            text = self.texts_focus[self.selection]
+        screen.blit(self.label, (self.x, self.y))
+        screen.blit(text, (self.x + self.label.get_width() + self.spacing, self.y))
