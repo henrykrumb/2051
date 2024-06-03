@@ -10,6 +10,6 @@ from .mainmenu import MainMenu
 @click.command()
 def fmain():
     gameapplication = GameApplication()
-    gamepath = os.path.join(os.path.dirname(__file__), 'resources')
+    gamepath = os.path.join(os.path.dirname(__file__), "resources")
     menu = MainMenu(gamepath, gameapplication)
     gameapplication.run(menu, gamepath)

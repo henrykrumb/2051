@@ -14,22 +14,22 @@ class CharacterDesigner:
     def __init__(self, path, gameapplication):
         self.running = True
         self.path = path
-        background_path = os.path.join(self.path, 'assets', 'ui', 'background.png')
+        background_path = os.path.join(self.path, "assets", "ui", "background.png")
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (640, 448))
-        fontpath = os.path.join(self.path, 'fonts')
-        self.font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 8)
+        fontpath = os.path.join(self.path, "fonts")
+        self.font = pygame.freetype.Font(os.path.join(fontpath, "default.ttf"), 8)
         self.events = []
         self.gameapplication = gameapplication
 
         self.component_group = ComponentGroup()
         self.component_group.components = [
-            Select('hair style:', ['long', 'short'], self.font),
-            Select('hair color:', ['black', 'red', 'brown', 'yellow'], self.font),
-            Select('skin tone:', ['brown', 'yellow'], self.font),
-            Select('shirt color:', ['blue', 'red', 'cyan'], self.font),
-            Select('pants color:', ['blue', 'red', 'cyan'], self.font),
-            Button('START', self.font)
+            Select("hair style:", ["long", "short"], self.font),
+            Select("hair color:", ["black", "red", "brown", "yellow"], self.font),
+            Select("skin tone:", ["brown", "yellow"], self.font),
+            Select("shirt color:", ["blue", "red", "cyan"], self.font),
+            Select("pants color:", ["blue", "red", "cyan"], self.font),
+            Button("START", self.font),
         ]
         self.component_group.pack()
         self.component_group.x = 640 // 2 - self.component_group.width // 2 + 128
@@ -37,23 +37,25 @@ class CharacterDesigner:
         self.make_character()
 
     def start_game(self):
-        self.gameapplication.state = 'game'
+        self.gameapplication.state = "game"
 
     def make_character(self):
         kwargs = {
-            'hair_style': self.component_group.components[0].get_option(),
-            'hair_color': self.component_group.components[1].get_option(),
-            'skin_tone': self.component_group.components[2].get_option(),
-            'shirt_color': self.component_group.components[3].get_option(),
-            'pants_color': self.component_group.components[4].get_option()
+            "hair_style": self.component_group.components[0].get_option(),
+            "hair_color": self.component_group.components[1].get_option(),
+            "skin_tone": self.component_group.components[2].get_option(),
+            "shirt_color": self.component_group.components[3].get_option(),
+            "pants_color": self.component_group.components[4].get_option(),
         }
-        self.character = Character(os.path.join(self.path, 'assets', 'characters'), **kwargs)
+        self.character = Character(
+            os.path.join(self.path, "assets", "characters"), **kwargs
+        )
 
     def update(self):
         def select(action):
-            if action == 'START':
+            if action == "START":
                 self.gameapplication.game.player.set_character(self.character)
-                self.gameapplication.state = 'game'
+                self.gameapplication.state = "game"
 
         while self.events:
             event = self.events.pop()
@@ -81,7 +83,7 @@ class CharacterDesigner:
                     select(self.component_group.on_activate())
 
     def display(self, screen):
-        screen.fill(COLORS['cyan'])
+        screen.fill(COLORS["cyan"])
         screen.blit(self.background, (0, 0))
         self.component_group.display(screen)
         sprite = Sprite(self.character.surface, 4)

@@ -2,6 +2,5 @@
 from twentyfiftyone import fmain
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     fmain()

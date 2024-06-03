@@ -36,8 +36,8 @@ class ComponentGroup(Component):
         super(ComponentGroup, self).__init__()
         self.components = []
         self.selection = 0
-        self.spacing = kwargs.pop('spacing', 16)
-        self.center = kwargs.pop('center', True)
+        self.spacing = kwargs.pop("spacing", 16)
+        self.center = kwargs.pop("center", True)
 
     def pack(self):
         self.width = 0
@@ -84,13 +84,18 @@ class ComponentGroup(Component):
 class Button(Component):
     def __init__(self, text: str, font, **kwargs):
         super(Button, self).__init__()
-        fg = kwargs.pop('fg', 'blue')
-        fg_focus = kwargs.pop('fg::focus', 'white')
+        fg = kwargs.pop("fg", "blue")
+        fg_focus = kwargs.pop("fg::focus", "white")
         self.text = text
         fg_text, _ = font.render(text, COLORS[fg])
         fg_text_focus, _ = font.render(text, COLORS[fg_focus])
-        self.fg_text = pygame.transform.scale(fg_text, (fg_text.get_width() * 4, fg_text.get_height() * 4))
-        self.fg_text_focus = pygame.transform.scale(fg_text_focus, (fg_text_focus.get_width() * 4, fg_text_focus.get_height() * 4))
+        self.fg_text = pygame.transform.scale(
+            fg_text, (fg_text.get_width() * 4, fg_text.get_height() * 4)
+        )
+        self.fg_text_focus = pygame.transform.scale(
+            fg_text_focus,
+            (fg_text_focus.get_width() * 4, fg_text_focus.get_height() * 4),
+        )
         self.width = self.fg_text.get_width()
         self.height = self.fg_text.get_height()
 
@@ -107,21 +112,29 @@ class Button(Component):
 class Select(Component):
     def __init__(self, label, options, font, **kwargs):
         super(Select, self).__init__()
-        fg = kwargs.pop('fg', 'blue')
-        fg_focus = kwargs.pop('fg_focus', 'white')
-        self.spacing = kwargs.pop('spacing', 16)
-        scale = kwargs.pop('scale', 2)
+        fg = kwargs.pop("fg", "blue")
+        fg_focus = kwargs.pop("fg_focus", "white")
+        self.spacing = kwargs.pop("spacing", 16)
+        scale = kwargs.pop("scale", 2)
         lbl, _ = font.render(label, COLORS[fg])
-        self.label = pygame.transform.scale(lbl, (lbl.get_width() * scale, lbl.get_height() * scale))
+        self.label = pygame.transform.scale(
+            lbl, (lbl.get_width() * scale, lbl.get_height() * scale)
+        )
+        self.texts = [font.render(text, COLORS[fg])[0] for text in options]
+        self.texts_focus = [font.render(text, COLORS[fg_focus])[0] for text in options]
         self.texts = [
-            font.render(text, COLORS[fg])[0] for text in options
+            pygame.transform.scale(t, (t.get_width() * scale, t.get_height() * scale))
+            for t in self.texts
         ]
         self.texts_focus = [
-            font.render(text, COLORS[fg_focus])[0] for text in options
+            pygame.transform.scale(t, (t.get_width() * scale, t.get_height() * scale))
+            for t in self.texts_focus
         ]
-        self.texts = [pygame.transform.scale(t, (t.get_width() * scale, t.get_height() * scale)) for t in self.texts]
-        self.texts_focus = [pygame.transform.scale(t, (t.get_width() * scale, t.get_height() * scale)) for t in self.texts_focus]
-        self.width = self.label.get_width() + self.spacing + max([t.get_width() for t in self.texts])
+        self.width = (
+            self.label.get_width()
+            + self.spacing
+            + max([t.get_width() for t in self.texts])
+        )
         self.height = self.label.get_height()
         self.options = options
         self.selection = 0

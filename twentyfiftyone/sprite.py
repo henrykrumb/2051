@@ -11,8 +11,7 @@ class Sprite:
         self.frame_h = image.get_height()
         self.scale = scale
         self.image = pygame.transform.scale(
-            image,
-            (scale * image.get_width(), scale * image.get_height())
+            image, (scale * image.get_width(), scale * image.get_height())
         )
 
     def display(self, screen):
@@ -21,8 +20,10 @@ class Sprite:
                 self.xframe * self.frame_w * self.scale,
                 self.yframe * self.frame_h * self.scale,
                 self.frame_w * self.scale,
-                self.frame_h * self.scale
+                self.frame_h * self.scale,
             )
-            screen.blit(self.image, (self.x * self.scale, self.y * self.scale), cliprect)
+            screen.blit(
+                self.image, (self.x * self.scale, self.y * self.scale), cliprect
+            )
         else:
             screen.blit(self.image, (self.x * self.scale, self.y * self.scale))

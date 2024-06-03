@@ -6,4 +6,3 @@ class Event:
 class EventNode:
     def __init__(self):
         pass
-

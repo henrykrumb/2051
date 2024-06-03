@@ -4,23 +4,17 @@ from .sprite import Sprite
 from .timer import Timer
 
 
-
 class Player:
     def __init__(self, character, settings):
-        self.scale = settings.get('scale', 4)
-        animation_delay = settings.get('walk_animation_delay', 100)
-        movement_delay = settings.get('walk_movement_delay', 40)
-        self.foot_height = settings.get('foot_height', 1)
+        self.scale = settings.get("scale", 4)
+        animation_delay = settings.get("walk_animation_delay", 100)
+        movement_delay = settings.get("walk_movement_delay", 40)
+        self.foot_height = settings.get("foot_height", 1)
         self.set_character(character)
         self.animation_timer = Timer(animation_delay)
         self.movement_timer = Timer(movement_delay)
-        self.direction = 'idle'
-        self.y_frames = dict(
-            north=1,
-            south=0,
-            east=2,
-            west=3
-        )
+        self.direction = "idle"
+        self.y_frames = dict(north=1, south=0, east=2, west=3)
 
     def set_character(self, character):
         self.sprite = Sprite(character.surface, self.scale)
@@ -31,7 +25,7 @@ class Player:
 
     def set_direction(self, direction):
         if self.direction == direction:
-            self.direction = 'idle'
+            self.direction = "idle"
         else:
             self.direction = direction
 
@@ -60,16 +54,16 @@ class Player:
     def update(self, room):
         dx = 0
         dy = 0
-        if self.direction == 'idle':
+        if self.direction == "idle":
             self.sprite.xframe = 0
             return
-        if self.direction == 'north':
+        if self.direction == "north":
             dy = -1
-        elif self.direction == 'south':
+        elif self.direction == "south":
             dy = 1
-        elif self.direction == 'east':
+        elif self.direction == "east":
             dx = 1
-        elif self.direction == 'west':
+        elif self.direction == "west":
             dx = -1
         self.sprite.yframe = self.y_frames.get(self.direction)
         if self.animation_timer.done():
@@ -79,42 +73,45 @@ class Player:
             # check if player character still in room boundaries
             room_w = room.tilemap.width * room.tilemap.tilewidth * self.scale
             room_h = room.tilemap.height * room.tilemap.tileheight * self.scale
-            if (self.sprite.x + dx) * self.scale < 0 or \
-               (self.sprite.y + dy) * self.scale < 0 or \
-               (self.sprite.x + self.sprite.frame_w + dx) * self.scale >= room_w or \
-               (self.sprite.y + self.sprite.frame_h + dy) * self.scale >= room_h:
-                self.direction = 'idle'
+            if (
+                (self.sprite.x + dx) * self.scale < 0
+                or (self.sprite.y + dy) * self.scale < 0
+                or (self.sprite.x + self.sprite.frame_w + dx) * self.scale >= room_w
+                or (self.sprite.y + self.sprite.frame_h + dy) * self.scale >= room_h
+            ):
+                self.direction = "idle"
                 return
             collision_layer = 4
             # check all tiles that intersect with the player's feet
             gid_A = room.tilemap.get_tile_gid(
                 (self.sprite.x + dx) // room.tilemap.tilewidth,
                 (self.sprite.y + dy + self.sprite.frame_h) // room.tilemap.tileheight,
-                collision_layer
+                collision_layer,
             )
             gid_B = room.tilemap.get_tile_gid(
                 (self.sprite.x + dx) // room.tilemap.tilewidth,
-                (self.sprite.y + dy + self.sprite.frame_h - self.foot_height) // room.tilemap.tileheight,
-                collision_layer
+                (self.sprite.y + dy + self.sprite.frame_h - self.foot_height)
+                // room.tilemap.tileheight,
+                collision_layer,
             )
             gid_C = room.tilemap.get_tile_gid(
                 (self.sprite.x + dx + self.sprite.frame_w) // room.tilemap.tilewidth,
                 (self.sprite.y + dy + self.sprite.frame_h) // room.tilemap.tileheight,
-                collision_layer
+                collision_layer,
             )
             gid_D = room.tilemap.get_tile_gid(
                 (self.sprite.x + dx + self.sprite.frame_w) // room.tilemap.tilewidth,
-                (self.sprite.y + dy + self.sprite.frame_h - self.foot_height) // room.tilemap.tileheight,
-                collision_layer
+                (self.sprite.y + dy + self.sprite.frame_h - self.foot_height)
+                // room.tilemap.tileheight,
+                collision_layer,
             )
             # we've hit a collision tile
             if gid_A != 0 or gid_B != 0 or gid_C != 0 or gid_D != 0:
-                self.direction = 'idle'
+                self.direction = "idle"
                 return
             self.sprite.x += dx
             self.sprite.y += dy
             self.movement_timer.reset()
-
 
     def display(self, screen):
         self.sprite.display(screen)

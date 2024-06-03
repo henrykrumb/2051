@@ -13,55 +13,59 @@ class GameApplication:
         self.sprites = []
         pygame.init()
         pygame.joystick.init()
-        joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+        joysticks = [
+            pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())
+        ]
         self.screen = pygame.display.set_mode((640, 448))
         self.screen.fill((0, 0, 0))
         self.clock = pygame.time.Clock()
-        self.state = 'menu'
+        self.state = "menu"
 
     def run(self, menu, gamepath):
         self.game = Game(gamepath)
         designer = CharacterDesigner(gamepath, self)
-        pygame.display.set_caption(self.game.settings.get('title', 'Adventure'))
+        pygame.display.set_caption(self.game.settings.get("title", "Adventure"))
 
         icon = None
         try:
-            icon = pygame.image.load(os.path.join(os.dirname(__file__), '..', 'twentyfiftyone.png'))
+            icon = pygame.image.load(
+                os.path.join(os.dirname(__file__), "..", "twentyfiftyone.png")
+            )
         except:
             try:
-                icon = pygame.image.load('/usr/share/icons/twentyfiftyone.png')
+                icon = pygame.image.load("/usr/share/icons/twentyfiftyone.png")
             except:
                 pass
         if icon:
             pygame.display.set_icon(icon)
 
-        while self.state != 'quit':
+        while self.state != "quit":
             pygame.display.update()
 
-            if self.state == 'menu':
+            if self.state == "menu":
                 receiver = menu
-            elif self.state == 'designer':
+            elif self.state == "designer":
                 receiver = designer
-            elif self.state == 'game':
+            elif self.state == "game":
                 receiver = self.game
 
             events = []
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    if self.state == 'game':
-                        self.state = 'menu'
-                    elif self.state == 'designer':
-                        self.state = 'menu'
+                    if self.state == "game":
+                        self.state = "menu"
+                    elif self.state == "designer":
+                        self.state = "menu"
                     else:
-                        self.state = 'quit'
+                        self.state = "quit"
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        if self.state == 'game':
-                            self.state = 'menu'
-                        elif self.state == 'designer':
-                            self.state = 'menu'
+                        if self.state == "game":
+                            self.state = "menu"
+                        elif self.state == "designer":
+                            self.state = "menu"
                         else:
-                            self.state = 'quit'
+                            self.state = "quit"
                     else:
                         events.append(event)
                 elif event.type == KEYUP:
@@ -78,4 +82,3 @@ class GameApplication:
             self.clock.tick()
         pygame.quit()
         exit(0)
-

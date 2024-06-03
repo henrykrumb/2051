@@ -12,36 +12,36 @@ class MainMenu:
     def __init__(self, path, gameapplication):
         self.running = True
         self.path = path
-        background_path = os.path.join(self.path, 'assets', 'ui', 'background.png')
+        background_path = os.path.join(self.path, "assets", "ui", "background.png")
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (640, 448))
-        fontpath = os.path.join(self.path, 'fonts')
-        font = pygame.freetype.Font(os.path.join(fontpath, 'default.ttf'), 8)
+        fontpath = os.path.join(self.path, "fonts")
+        font = pygame.freetype.Font(os.path.join(fontpath, "default.ttf"), 8)
         self.events = []
         self.gameapplication = gameapplication
 
         self.button_group = ComponentGroup()
         self.button_group.components = [
-            Button('START', font),
-            Button('LOAD', font),
-            Button('EXIT', font)
+            Button("START", font),
+            Button("LOAD", font),
+            Button("EXIT", font),
         ]
         self.button_group.pack()
         self.button_group.x = 640 // 2 - self.button_group.width // 2
         self.button_group.y = 448 // 2 - self.button_group.height // 2
 
     def start_game(self):
-        self.gameapplication.state = 'game'
+        self.gameapplication.state = "game"
 
     def update(self):
         def select(action):
             action = action.lower()
-            if action == 'start':
-                self.gameapplication.state = 'designer'
-            elif action == 'load':
-                self.gameapplication.state = 'load'
-            elif action == 'exit':
-                self.gameapplication.state = 'quit'
+            if action == "start":
+                self.gameapplication.state = "designer"
+            elif action == "load":
+                self.gameapplication.state = "load"
+            elif action == "exit":
+                self.gameapplication.state = "quit"
 
         while self.events:
             event = self.events.pop()
@@ -63,6 +63,6 @@ class MainMenu:
                     select(self.button_group.on_activate())
 
     def display(self, screen):
-        screen.fill(COLORS['cyan'])
+        screen.fill(COLORS["cyan"])
         screen.blit(self.background, (0, 0))
         self.button_group.display(screen)

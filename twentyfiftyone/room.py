@@ -21,7 +21,7 @@ class Door:
 
 
 class Lookat:
-    icon = 'look'
+    icon = "look"
 
     def __init__(self, x, y, message, conditions):
         self.x = x
@@ -31,7 +31,7 @@ class Lookat:
 
 
 class Item:
-    icon = 'pickup'
+    icon = "pickup"
 
     def __init__(self, x, y, id_, image, message, conditions):
         self.x = x
@@ -41,12 +41,12 @@ class Item:
         self.message = message
         self.conditions = conditions
         if self.conditions:
-            self.conditions += ','
-        self.conditions += '~' + self.id
+            self.conditions += ","
+        self.conditions += "~" + self.id
 
 
 class Interaction:
-    icon = 'use'
+    icon = "use"
 
     def __init__(self, x, y, message, flags, conditions):
         self.x = x
@@ -58,54 +58,58 @@ class Interaction:
 
 class Room:
     def __init__(self, room_id, room_path, room_definition, scale):
-        self.light_sources = room_definition.get('light_sources', [])
-        self.ambient_light = room_definition.get('ambient_light', 255)
+        self.light_sources = room_definition.get("light_sources", [])
+        self.ambient_light = room_definition.get("ambient_light", 255)
         self.doors = []
         self.items = {}
         self.actions = []
-        itempath = os.path.join(room_path, '..', 'assets', 'items')
-        doors = room_definition.get('doors', [])
+        itempath = os.path.join(room_path, "..", "assets", "items")
+        doors = room_definition.get("doors", [])
         for door in doors:
             self.doors.append(
                 Door(
-                    door['x'], door['y'],
-                    door['dest_id'],
-                    door['dest_x'], door['dest_y'],
-                    door.get('dest_face', 'south')
-                )     
+                    door["x"],
+                    door["y"],
+                    door["dest_id"],
+                    door["dest_x"],
+                    door["dest_y"],
+                    door.get("dest_face", "south"),
+                )
             )
-        lookats = room_definition.get('lookats', [])
+        lookats = room_definition.get("lookats", [])
         for lookat in lookats:
             self.actions.append(
                 Lookat(
-                    lookat['x'], lookat['y'],
-                    lookat['message'],
-                    lookat.get('conditions', '')
+                    lookat["x"],
+                    lookat["y"],
+                    lookat["message"],
+                    lookat.get("conditions", ""),
                 )
             )
-        items = room_definition.get('items', [])
+        items = room_definition.get("items", [])
         for item in items:
-            image = pygame.image.load(os.path.join(itempath, item['id'] + '.png'))
+            image = pygame.image.load(os.path.join(itempath, item["id"] + ".png"))
             image = pygame.transform.scale(
-                image,
-                (image.get_width() * 4, image.get_height() * 4)
+                image, (image.get_width() * 4, image.get_height() * 4)
             )
-            self.items[item['id']] = Item(
-                item['x'], item['y'],
-                item['id'],
+            self.items[item["id"]] = Item(
+                item["x"],
+                item["y"],
+                item["id"],
                 image,
-                item.get('message', ''),
-                item.get('conditions', '')
+                item.get("message", ""),
+                item.get("conditions", ""),
             )
-            self.actions.append(self.items[item['id']])
-        interactions = room_definition.get('interactions', [])
+            self.actions.append(self.items[item["id"]])
+        interactions = room_definition.get("interactions", [])
         for interaction in interactions:
             self.actions.append(
                 Interaction(
-                    interaction['x'], interaction['y'],
-                    interaction['message'],
-                    interaction.get('flags', []),
-                    interaction.get('conditions', '')
+                    interaction["x"],
+                    interaction["y"],
+                    interaction["message"],
+                    interaction.get("flags", []),
+                    interaction.get("conditions", ""),
                 )
             )
         self.load(room_id, room_path, scale)
@@ -114,10 +118,12 @@ class Room:
         self.room_path = room_path
         self.room_id = room_id
         # load tilemap
-        map_filename = os.path.join(room_path, room_id + '.tmx')
+        map_filename = os.path.join(room_path, room_id + ".tmx")
         self.tilemap = load_pygame(map_filename)
         # load map properties
-        self.ambient_light = self.tilemap.properties.get('ambient_light', self.ambient_light)
+        self.ambient_light = self.tilemap.properties.get(
+            "ambient_light", self.ambient_light
+        )
 
         self.frames = self.tilemap.tile_properties
         self.frame_ptrs = {}
@@ -138,17 +144,21 @@ class Room:
                 g = 0
                 b = 0
                 for light_source in self.light_sources:
-                    lx = light_source.get('x', 0)
-                    ly = light_source.get('y', 0)
-                    value = light_source.get('value', 0)
-                    dist = np.sqrt((x - lx * tile_w - 7) ** 2 + (y - ly * tile_h - 7) ** 2)
+                    lx = light_source.get("x", 0)
+                    ly = light_source.get("y", 0)
+                    value = light_source.get("value", 0)
+                    dist = np.sqrt(
+                        (x - lx * tile_w - 7) ** 2 + (y - ly * tile_h - 7) ** 2
+                    )
                     light -= value / (0.08 * (dist + 1))
                 if light < 0:
                     light = 0
                 quantize = 1
                 light = (int(light) // quantize) * quantize
                 color = (r, g, b, light)
-                pygame.draw.rect(self.light_mask, color, (x * scale, y * scale, scale, scale))
+                pygame.draw.rect(
+                    self.light_mask, color, (x * scale, y * scale, scale, scale)
+                )
 
     def display(self, screen, layer_id, scale):
         tile_w = self.tilemap.tilewidth
@@ -164,7 +174,7 @@ class Room:
                     continue
                 # load animated frames and timers
                 if gid in self.frames:
-                    frames = self.frames[gid]['frames']
+                    frames = self.frames[gid]["frames"]
                     frameptr = self.frame_ptrs.get(gid, 0)
                     delay = frames[frameptr].duration
                     frame_timer = self.frame_timers.get(gid, Timer(delay))
@@ -177,7 +187,9 @@ class Room:
                         delay = frames[frameptr].duration
                         self.frame_timers[original_gid] = Timer(delay)
                 image = self.tilemap.images[gid]
-                scaled_image = pygame.transform.scale(image, (tile_w * scale, tile_h * scale))
+                scaled_image = pygame.transform.scale(
+                    image, (tile_w * scale, tile_h * scale)
+                )
                 screen.blit(scaled_image, (x * tile_w * scale, y * tile_h * scale))
 
     def display_items(self, screen, scale):
