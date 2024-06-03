@@ -2,58 +2,137 @@
 	"0000_start": {
 		"ambient_light": 128,
 		"light_sources": [
-			{ "x": 2, "y": 1, "value": 140 }
+			{
+				"x": 2,
+				"y": 1,
+				"value": 140
+			}
 		],
 		"doors": [
-			{ "x": 5, "y": 2, "dest_id": "0001_hallway", "dest_x": 1, "dest_y": 2, "dest_face": "south" }
+			{
+				"x": 5,
+				"y": 2,
+				"dest_id": "0001_hallway",
+				"dest_x": 1,
+				"dest_y": 2,
+				"dest_face": "south"
+			}
 		],
 		"lookats": [
 			{
-				"x": 3, "y": 3,
+				"x": 3,
+				"y": 3,
 				"conditions": "~floppy",
 				"message": "This is your personal terminal.\nYou have illegally modified the firmware,\nallowing you to read documents stored on floppies.\n\nYou can insert floppy disks into a designated slot."
 			},
 			{
-				"x": 3, "y": 3,
+				"x": 3,
+				"y": 3,
 				"conditions": "floppyinserted",
 				"message": "The floppy you inserted contains a text document.\nIt reads:\n'End of tech demo.'\n\nThat's odd."
 			}
 		],
 		"interactions": [
 			{
-				"x": 3, "y": 3,
+				"x": 3,
+				"y": 3,
 				"conditions": "floppy,~floppyinserted",
 				"message": "You insert the floppy disk into the terminal.",
-				"flags": [ "floppyinserted" ]
+				"flags": [
+					"floppyinserted"
+				]
 			}
 		]
 	},
 	"0001_hallway": {
 		"ambient_light": 100,
 		"light_sources": [
-			{ "x": 3, "y": 1, "value": 140 },
-			{ "x": 9, "y": 1, "value": 140 }
+			{
+				"x": 3,
+				"y": 1,
+				"value": 140
+			},
+			{
+				"x": 9,
+				"y": 1,
+				"value": 140
+			}
 		],
 		"doors": [
-			{ "x": 1, "y": 2, "dest_id": "0000_start", "dest_x": 5, "dest_y": 2, "dest_face": "south" },
-			{ "x": 10, "y": 3, "dest_id": "0002_kitchen", "dest_x": 1, "dest_y": 2, "dest_face": "east" },
-			{ "x": 10, "y": 4, "dest_id": "0002_kitchen", "dest_x": 1, "dest_y": 3, "dest_face": "east" },
-			{ "x": 10, "y": 5, "dest_id": "0002_kitchen", "dest_x": 1, "dest_y": 4, "dest_face": "east" }
+			{
+				"x": 1,
+				"y": 2,
+				"dest_id": "0000_start",
+				"dest_x": 5,
+				"dest_y": 2,
+				"dest_face": "south"
+			},
+			{
+				"x": 10,
+				"y": 3,
+				"dest_id": "0002_kitchen",
+				"dest_x": 1,
+				"dest_y": 2,
+				"dest_face": "east"
+			},
+			{
+				"x": 10,
+				"y": 4,
+				"dest_id": "0002_kitchen",
+				"dest_x": 1,
+				"dest_y": 3,
+				"dest_face": "east"
+			},
+			{
+				"x": 10,
+				"y": 5,
+				"dest_id": "0002_kitchen",
+				"dest_x": 1,
+				"dest_y": 4,
+				"dest_face": "east"
+			}
 		]
 	},
 	"0002_kitchen": {
 		"ambient_light": 100,
 		"light_sources": [
-			{ "x": 3, "y": 0, "value": 140 }
+			{
+				"x": 3,
+				"y": 0,
+				"value": 140
+			}
 		],
 		"doors": [
-			{ "x": 0, "y": 3, "dest_id": "0001_hallway", "dest_x": 9, "dest_y": 2, "dest_face": "west" },
-			{ "x": 0, "y": 4, "dest_id": "0001_hallway", "dest_x": 9, "dest_y": 3, "dest_face": "west" },
-			{ "x": 0, "y": 5, "dest_id": "0001_hallway", "dest_x": 9, "dest_y": 4, "dest_face": "west" }
+			{
+				"x": 0,
+				"y": 3,
+				"dest_id": "0001_hallway",
+				"dest_x": 9,
+				"dest_y": 2,
+				"dest_face": "west"
+			},
+			{
+				"x": 0,
+				"y": 4,
+				"dest_id": "0001_hallway",
+				"dest_x": 9,
+				"dest_y": 3,
+				"dest_face": "west"
+			},
+			{
+				"x": 0,
+				"y": 5,
+				"dest_id": "0001_hallway",
+				"dest_x": 9,
+				"dest_y": 4,
+				"dest_face": "west"
+			}
 		],
 		"items": [
 			{
-				"x": 6, "y": 3, "id": "floppy",
+				"x": 6,
+				"y": 3,
+				"id": "floppy",
 				"message": "This is a floppy disk.\nYou can store up to 1.44 MB of data on this bad boy."
 			}
 		]
