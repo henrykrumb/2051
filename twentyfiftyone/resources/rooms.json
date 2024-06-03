@@ -58,6 +58,14 @@
 				"value": 140
 			}
 		],
+		"lookats": [
+			{
+				"x": 7,
+				"y": 2,
+				"conditions": "~dooropen",
+				"message": "This door is closed."
+			}
+		],
 		"doors": [
 			{
 				"x": 1,
@@ -126,6 +134,23 @@
 				"dest_x": 9,
 				"dest_y": 4,
 				"dest_face": "west"
+			}
+		],
+		"lookats": [
+			{
+				"x": 5,
+				"y": 1,
+				"message": "This sign reads: something."
+			},
+			{
+				"x": 7,
+				"y": 1,
+				"message": "An elevator. Downwards."
+			},
+			{
+				"x": 8,
+				"y": 1,
+				"message": "An elevator. Upwards."
 			}
 		],
 		"items": [
