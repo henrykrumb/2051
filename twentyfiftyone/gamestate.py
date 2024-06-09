@@ -1,7 +1,6 @@
 import base64
 import datetime
 import json
-import time
 
 
 class GameState:
@@ -10,7 +9,7 @@ class GameState:
         self.room_id = "0000_start"
         self.last_changed = ""
 
-    def is_set(self, flag_key):
+    def is_set(self, flag_key: str):
         if flag_key.startswith("~"):
             return not self.flags.get(flag_key[1:], False)
         return self.flags.get(flag_key, False)
@@ -18,7 +17,7 @@ class GameState:
     def _change(self):
         self.last_changed = str(datetime.datetime.now())
 
-    def set_flag(self, flag_key):
+    def set_flag(self, flag_key: str):
         if flag_key.startswith("~"):
             self.flags[flag_key[1:]] = False
             self._change()
@@ -26,7 +25,7 @@ class GameState:
             self.flags[flag_key] = True
             self._change()
 
-    def set_room(self, room_id):
+    def set_room(self, room_id: str):
         self.room_id = room_id
         self._change()
 

@@ -2,7 +2,7 @@ import pygame
 
 
 class Timer:
-    def __init__(self, delay):
+    def __init__(self, delay: int):
         self.delay = delay
         self.t = pygame.time.get_ticks()
 

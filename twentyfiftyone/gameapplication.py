@@ -5,18 +5,19 @@ from pygame.locals import *
 
 from .character_designer import CharacterDesigner
 from .game import Game
-from .room import Room
 
 
 class GameApplication:
     def __init__(self):
+        self.width = 640
+        self.height = 448
         self.sprites = []
         pygame.init()
         pygame.joystick.init()
         joysticks = [
             pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())
         ]
-        self.screen = pygame.display.set_mode((640, 448))
+        self.screen = pygame.display.set_mode((self.width, self.height))
         self.screen.fill((0, 0, 0))
         self.clock = pygame.time.Clock()
         self.state = "menu"
@@ -39,6 +40,8 @@ class GameApplication:
         if icon:
             pygame.display.set_icon(icon)
 
+        pygame.event.set_blocked(pygame.MOUSEMOTION)
+        pygame.mouse.set_visible(False)
         while self.state != "quit":
             pygame.display.update()
 
@@ -59,7 +62,7 @@ class GameApplication:
                     else:
                         self.state = "quit"
                 elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
+                    if event.key in (K_ESCAPE, K_q):
                         if self.state == "game":
                             self.state = "menu"
                         elif self.state == "designer":

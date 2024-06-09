@@ -2,7 +2,7 @@ import pygame
 
 
 class Sprite:
-    def __init__(self, image, scale=1):
+    def __init__(self, image, scale: int = 1):
         self.x = 0
         self.y = 0
         self.xframe = 0

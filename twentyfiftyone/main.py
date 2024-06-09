@@ -2,7 +2,7 @@ import os
 
 import click
 
-from .game import Game
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 from .gameapplication import GameApplication
 from .mainmenu import MainMenu
 

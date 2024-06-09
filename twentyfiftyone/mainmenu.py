@@ -27,8 +27,8 @@ class MainMenu:
             Button("EXIT", font),
         ]
         self.button_group.pack()
-        self.button_group.x = 640 // 2 - self.button_group.width // 2
-        self.button_group.y = 448 // 2 - self.button_group.height // 2
+        self.button_group.x = gameapplication.width // 2 - self.button_group.width // 2
+        self.button_group.y = gameapplication.height // 2 - self.button_group.height // 2
 
     def start_game(self):
         self.gameapplication.state = "game"
@@ -37,7 +37,7 @@ class MainMenu:
         def select(action):
             action = action.lower()
             if action == "start":
-                self.gameapplication.state = "designer"
+                self.gameapplication.state = "game"#"designer"
             elif action == "load":
                 self.gameapplication.state = "load"
             elif action == "exit":
