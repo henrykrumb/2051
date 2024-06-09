@@ -1,5 +1,6 @@
 {
 	"0000_start": {
+		"welcome_message": "Hello World",
 		"ambient_light": 128,
 		"light_sources": [
 			{
@@ -55,7 +56,7 @@
 			{
 				"x": 9,
 				"y": 1,
-				"value": 140
+				"value": 135
 			}
 		],
 		"lookats": [
@@ -63,7 +64,7 @@
 				"x": 7,
 				"y": 2,
 				"conditions": "~dooropen",
-				"message": "This door is closed."
+				"message": "This door is locked."
 			}
 		],
 		"doors": [

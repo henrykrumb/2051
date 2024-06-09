@@ -112,11 +112,14 @@ class Room:
                     interaction.get("conditions", ""),
                 )
             )
-        self.load(room_id, room_path, scale)
+        self.entered = False
+        self.welcome_message = room_definition.get("welcome_message", "")
+        self.load(room_id, room_path, scale, self.welcome_message)
 
-    def load(self, room_id, room_path, scale):
+    def load(self, room_id, room_path, scale, welcome_message):
         self.room_path = room_path
         self.room_id = room_id
+        self.welcome_message = welcome_message
         # load tilemap
         map_filename = os.path.join(room_path, room_id + ".tmx")
         self.tilemap = load_pygame(map_filename)
@@ -136,7 +139,8 @@ class Room:
         mask_h = tile_h * self.tilemap.height * scale
         self.light_mask = pygame.Surface((mask_w, mask_h), flags=pygame.SRCALPHA)
         self.light_mask.fill((0, 0, 0, 255))
-        scale = 4
+
+        # create light mask
         for y in range(self.light_mask.get_height() // scale):
             for x in range(self.light_mask.get_width() // scale):
                 light = 255 - self.ambient_light

@@ -8,8 +8,7 @@ from pygame.locals import *
 from .character import Character
 from .gamestate import GameState
 from .player import Player
-from .room import Room, Lookat
-from .sprite import Sprite
+from .room import Room
 
 
 class Game:
@@ -59,6 +58,8 @@ class Game:
             self.update_messagebox()
 
     def update_messagebox(self):
+        """Wait for key event while message box is shown.
+        """
         while self.events:
             event = self.events.pop()
             if event.type in (KEYDOWN, JOYBUTTONDOWN, JOYAXISMOTION):
@@ -92,6 +93,10 @@ class Game:
 
         room_id = self.gamestate.room_id
         room = self.rooms.get(room_id)
+        if not room.entered:
+            room.entered = True
+            if room.welcome_message:
+                show_messagebox(room.welcome_message)
 
         # FIXME find an elegant way to solve this
         def trigger_action():
@@ -110,13 +115,13 @@ class Game:
         while self.events:
             event = self.events.pop()
             if event.type == KEYDOWN:
-                if event.key == K_LEFT:
+                if event.key in (K_LEFT, K_a):
                     self.player.set_direction("west")
-                elif event.key == K_RIGHT:
+                elif event.key in (K_RIGHT, K_d):
                     self.player.set_direction("east")
-                elif event.key == K_UP:
+                elif event.key in (K_UP, K_w):
                     self.player.set_direction("north")
-                elif event.key == K_DOWN:
+                elif event.key in (K_DOWN, K_s):
                     self.player.set_direction("south")
                 elif event.key == K_SPACE:
                     trigger_action()
